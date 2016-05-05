@@ -1,4 +1,4 @@
-# tictactoe
+# Tic-Tac-Toe with React, Webpack, and Babel
 
 1. Open a command prompt in this directory and run "npm install".
 2. When that is finished, in the same command prompt run "webpack-dev-server".
