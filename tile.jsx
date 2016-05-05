@@ -4,10 +4,8 @@ export default class Tile extends React.Component {
 
 	render() {
 		return (
-				<div className="tile" onClick={()=>{this.tileClicked('a1')}}>
-					<span className="innerTile">
-						 blah
-					</span>
+				<div className="tile" onClick={this.props.onClick}>
+						 {this.props.text}
 				</div>
 			);
 	}

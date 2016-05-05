@@ -44,50 +44,51 @@ class Board extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState){
-
-		if((this.state.a1 == "X" || this.state.a1 == "O") && this.state.a1 == this.state.a2 && this.state.a1 == this.state.a3 && this.state.winner == '')
+		//Check all possible winning scenarios after state updates. Check for tie if all tiles are filled.
+		if((this.state.a1 === "X" || this.state.a1 === "O") && this.state.a1 === this.state.a2 && this.state.a1 === this.state.a3 && this.state.winner === '')
 		{
 			this.decideWinner(this.state.a1);
 		}
-		else if((this.state.b1 == "X" || this.state.b1 == "O") && this.state.b1 == this.state.b2 && this.state.b1 == this.state.b3 && this.state.winner == '')
+		else if((this.state.b1 === "X" || this.state.b1 === "O") && this.state.b1 === this.state.b2 && this.state.b1 === this.state.b3 && this.state.winner === '')
 		{
 			this.decideWinner(this.state.b1);
 		}
-		else if((this.state.c1 == "X" || this.state.c1 == "O") && this.state.c1 == this.state.c2 && this.state.c1 == this.state.c3 && this.state.winner == '')
+		else if((this.state.c1 === "X" || this.state.c1 === "O") && this.state.c1 === this.state.c2 && this.state.c1 === this.state.c3 && this.state.winner === '')
 		{
 			this.decideWinner(this.state.c1);
 		}
-		else if((this.state.a1 == "X" || this.state.a1 == "O") && this.state.a1 == this.state.b1 && this.state.a1 == this.state.c1 && this.state.winner == '')
+		else if((this.state.a1 === "X" || this.state.a1 === "O") && this.state.a1 === this.state.b1 && this.state.a1 === this.state.c1 && this.state.winner === '')
 		{
 			this.decideWinner(this.state.a1);
 		}
-		else if((this.state.a2 == "X" || this.state.a2 == "O") && this.state.a2 == this.state.b2 && this.state.a2 == this.state.c2 && this.state.winner == '')
+		else if((this.state.a2 === "X" || this.state.a2 === "O") && this.state.a2 === this.state.b2 && this.state.a2 === this.state.c2 && this.state.winner === '')
 		{
 			this.decideWinner(this.state.a2);
 		}
-		else if((this.state.a3 == "X" || this.state.a3 == "O") && this.state.a3 == this.state.b3 && this.state.a3 == this.state.c3 && this.state.winner == '')
+		else if((this.state.a3 === "X" || this.state.a3 === "O") && this.state.a3 === this.state.b3 && this.state.a3 === this.state.c3 && this.state.winner === '')
 		{
 			this.decideWinner(this.state.a3);
 		}
-		else if((this.state.a1 == "X" || this.state.a1 == "O") && this.state.a1 == this.state.b2 && this.state.a1 == this.state.c3 && this.state.winner == '')
+		else if((this.state.a1 === "X" || this.state.a1 === "O") && this.state.a1 === this.state.b2 && this.state.a1 === this.state.c3 && this.state.winner === '')
 		{
 			this.decideWinner(this.state.a1);
 		}
-		else if((this.state.c1 == "X" || this.state.c1 == "O") && this.state.c1 == this.state.b2 && this.state.c1 == this.state.a3 && this.state.winner == '')
+		else if((this.state.c1 === "X" || this.state.c1 === "O") && this.state.c1 === this.state.b2 && this.state.c1 === this.state.a3 && this.state.winner === '')
 		{
 			this.decideWinner(this.state.c1);
 		}
-		else if(this.state.a1 && this.state.a2 && this.state.a3 && this.state.b1 && this.state.b2 && this.state.b3 && this.state.c1 && this.state.c2 && this.state.c3 && this.state.winner == '')
+		else if(this.state.a1 && this.state.a2 && this.state.a3 && this.state.b1 && this.state.b2 && this.state.b3 && this.state.c1 && this.state.c2 && this.state.c3 && this.state.winner === '')
 		{
 			this.decideWinner("tie");
 		}
 	}
 
 	tileClicked(tile) {
-
-		if(!this.state[tile])
+		//If the tile hasn't been clicked yet and a winner has not been
+		//declared, update player and tile accordingly
+		if(!this.state[tile] && !this.state.winner)
 		{
-			if(this.state.player == 1)
+			if(this.state.player === 1)
 			{
 				this.setState({
 					[tile]: "X",
@@ -95,7 +96,7 @@ class Board extends React.Component {
 				});
 
 			}
-			else if (this.state.player == 2)
+			else if (this.state.player === 2)
 			{
 				this.setState({
 					[tile]: "O",
@@ -106,6 +107,7 @@ class Board extends React.Component {
 	}
 
 	newGame() {
+		//Reset everything for new game
 		this.setState({
 			a1: '',
 			a2: '',
@@ -124,58 +126,25 @@ class Board extends React.Component {
 	render() {
 		return (
 			<div>
-			<h1>Tic-Tac-Toe</h1>
-			<h2>Player {this.state.player}'s turn</h2>
-			<h2>{this.state.winner}</h2>
-			{	this.state.winner &&
-				<button onClick={this.newGame}>New Game</button>
-			}
-				<div className="tile" onClick={()=>{this.tileClicked('a1')}}>
-					<span className="innerTile">
-						{this.state.a1}
-					</span>
+				<h1>Tic-Tac-Toe</h1>
+				{	!this.state.winner &&
+					<h2>Player {this.state.player}'s turn</h2>
+				}
+				<h2 className="left winner">{this.state.winner}</h2>
+				<div className="clear">
+				{	this.state.winner &&
+					<button onClick={this.newGame}>New Game</button>
+				}
 				</div>
-				<div className="tile" onClick={()=>{this.tileClicked('a2')}}>
-					<span className="innerTile">
-							{this.state.a2}
-					</span>
-				</div>
-				<div className="tile" onClick={()=>{this.tileClicked('a3')}}>
-					<span className="innerTile">
-							{this.state.a3}
-					</span>
-				</div>
-				<div className="tile" onClick={()=>{this.tileClicked('b1')}}>
-					<span className="innerTile">
-						{this.state.b1}
-					</span>
-				</div>
-				<div className="tile" onClick={()=>{this.tileClicked('b2')}}>
-					<span className="innerTile">
-						{this.state.b2}
-					</span>
-				</div>
-				<div className="tile" onClick={()=>{this.tileClicked('b3')}}>
-					<span className="innerTile">
-						{this.state.b3}
-					</span>
-				</div>
-				<div className="tile" onClick={()=>{this.tileClicked('c1')}}>
-					<span className="innerTile">
-						{this.state.c1}
-					</span>
-				</div>
-				<div className="tile" onClick={()=>{this.tileClicked('c2')}}>
-					<span className="innerTile">
-						{this.state.c2}
-					</span>
-				</div>
-				<div className="tile" onClick={()=>{this.tileClicked('c3')}}>
-					<span className="innerTile">
-						{this.state.c3}
-					</span>
-				</div>
-				<Tile />
+				<Tile onClick={()=>{this.tileClicked('a1')}} text={this.state.a1} />
+				<Tile onClick={()=>{this.tileClicked('a2')}} text={this.state.a2} />
+				<Tile onClick={()=>{this.tileClicked('a3')}} text={this.state.a3} />
+				<Tile onClick={()=>{this.tileClicked('b1')}} text={this.state.b1} />
+				<Tile onClick={()=>{this.tileClicked('b2')}} text={this.state.b2} />
+				<Tile onClick={()=>{this.tileClicked('b3')}} text={this.state.b3} />
+				<Tile onClick={()=>{this.tileClicked('c1')}} text={this.state.c1} />
+				<Tile onClick={()=>{this.tileClicked('c2')}} text={this.state.c2} />
+				<Tile onClick={()=>{this.tileClicked('c3')}} text={this.state.c3} />
 			</div>
 			);
 	}
